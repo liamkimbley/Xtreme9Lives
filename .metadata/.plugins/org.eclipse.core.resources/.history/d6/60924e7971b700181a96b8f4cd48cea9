@@ -1,0 +1,13 @@
+package com.skilldistillery.xtreme.services;
+
+import java.util.List;
+
+import com.skilldistillery.xtreme.Post;
+
+public interface PostService {
+	
+	public List<Post> findPostsByCategoryName(String name);
+	public List<Post> searchPostsByName(String name);
+	public List<Post> searchPostsByTitle(String title);
+	public List<Post> findPostsByPriceRange(double lowest, double highest);
+}

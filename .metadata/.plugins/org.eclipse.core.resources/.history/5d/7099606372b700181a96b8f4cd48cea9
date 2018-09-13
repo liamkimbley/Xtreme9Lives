@@ -1,0 +1,47 @@
+package com.skilldistillery.xtreme.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.skilldistillery.xtreme.Post;
+import com.skilldistillery.xtreme.repositories.PostRepository;
+
+@Service
+public class PostServiceImpl implements PostService {
+	
+	@Autowired
+	private PostRepository postRepo;
+
+	@Override
+	public List<Post> findPostsByCategoryName(String name) {
+		return postRepo.findByCategoryName(name);
+		
+	}
+
+	@Override
+	public List<Post> findPostsByPriceRange(double lowest, double highest) {
+		return postRepo.vqueryForPostByPriceRange(lowest, highest);
+		
+	}
+
+	@Override
+	public List<Post> searchPostsByName(String name) {
+		return postRepo.findByNameContaining(name);
+		
+	}
+
+	@Override
+	public List<Post> searchPostsByTitle(String title) {
+		return postRepo.findByTitleContaining(title);
+		
+	}
+
+	@Override
+	public List<Post> findAllPosts() {
+		return postRepo.findAll();
+		
+	}
+
+}

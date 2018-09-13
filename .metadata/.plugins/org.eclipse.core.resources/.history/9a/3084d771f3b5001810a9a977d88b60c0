@@ -1,0 +1,73 @@
+package com.skilldistillery.xtreme;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Comment {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
+
+	private String name;
+
+	private String content;
+
+	@ManyToOne
+	@Column(name = "post_id")
+	private int postId;
+//	end of fields
+
+	public Comment() {
+	}
+
+	public Comment(String name, String content, int postId) {
+		super();
+		this.name = name;
+		this.content = content;
+		this.postId = postId;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [Id=" + Id + ", name=" + name + ", content=" + content + ", postId=" + postId + "]";
+	}
+
+}

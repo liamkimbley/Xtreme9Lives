@@ -1,0 +1,74 @@
+package com.skilldistillery.xtreme.data;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.skilldistillery.xtreme.Post;
+
+@Transactional
+@Service
+public class PostDAOImpl implements PostDAO {
+	
+	@PersistenceContext
+	private EntityManager em;
+
+	@Override
+	public List<Post> getAllPosts() {
+		String query = "SELECT p FROM Post p";
+		return em.createQuery(query, Post.class).getResultList();
+	}
+
+	@Override
+	public Post getPostById(int pid) {
+		return em.find(Post.class, pid);
+		
+	}
+
+	@Override
+	public Post createPost(Post post) {
+		try {
+			em.persist(post);
+			em.flush();
+			return post;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Post updatePost(int pid, Post post) {
+		Post p = em.find(Post.class, pid);
+		p.setBrand(post.getBrand());
+		p.setCategory(post.getCategory());
+		p.setComments(post.getComments());
+		p.setDescription(post.getDescription());
+		p.setEmail(post.getEmail());
+		p.setImageURL(post.getImageURL());
+		p.setName(post.getName());
+		p.setPrice(post.getPrice());
+		p.setTitle(post.getTitle());
+		p.setUpdatedAt(post.getCreatedAt());
+		
+		return p;
+		
+	}
+
+	@Override
+	public Post replacePost(int pid, Post post) {
+		return null;
+		
+	}
+
+	@Override
+	public boolean deletePost(int pid) {
+		return false;
+		
+	}
+
+}

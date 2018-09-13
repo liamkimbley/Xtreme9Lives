@@ -1,0 +1,52 @@
+package com.skilldistillery.xtreme.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.skilldistillery.xtreme.Comment;
+import com.skilldistillery.xtreme.Post;
+import com.skilldistillery.xtreme.repositories.CommentRepository;
+import com.skilldistillery.xtreme.repositories.PostRepository;
+
+@Service
+public class CommentServiceImpl implements CommentService {
+
+	@Autowired
+	private CommentRepository comRepo;
+	@Autowired
+	private PostRepository postRepo;
+
+	@Override
+	public List<Comment> findCommentsByPost(int id) {
+		return comRepo.queryForCommentsByPostId(id);
+		
+	}
+
+	@Override
+	public Comment createNewCommentOnPost(int id, Comment comment) {
+		Comment com = new Comment();
+		Post post = postRepo.findById(id).get();
+		if (post != null) {
+			com.setPost(post);
+		}
+		com.setContent(comment.getContent());
+		com.setName(comment.getName());
+		
+		return comRepo.saveAndFlush(com);
+		
+	}
+
+	@Override
+	public boolean deleteCommentById(int id, int cid) {
+		try {
+			comRepo.deleteById(cid);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+}

@@ -1,0 +1,17 @@
+angular.module("appModule")
+.filter('filterPostByCategory', function(){
+	return function(posts, category){
+		console.log(category);
+		
+		if(category && category.name == "all") return posts;
+		
+		var results = [];
+		posts.forEach(function(val, index, arr){
+			console.log("****************8")
+			console.log(val);
+			if(val.category.name == category.name) results.push(val);
+		});
+		
+		return results;
+	}
+})

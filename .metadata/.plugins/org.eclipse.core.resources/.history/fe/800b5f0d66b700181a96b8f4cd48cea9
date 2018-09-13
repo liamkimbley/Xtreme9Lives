@@ -1,0 +1,14 @@
+package com.skilldistillery.xtreme.tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class CommentRepositoryTest {
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

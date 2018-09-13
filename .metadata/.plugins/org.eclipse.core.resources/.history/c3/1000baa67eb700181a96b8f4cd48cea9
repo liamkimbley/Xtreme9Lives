@@ -1,0 +1,186 @@
+package com.skilldistillery.xtreme.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.skilldistillery.xtreme.Post;
+import com.skilldistillery.xtreme.repositories.PostRepository;
+
+@Service
+public class PostServiceImpl implements PostService {
+
+	@Autowired
+	private PostRepository postRepo;
+
+	@Override
+	public List<Post> findPostsByCategoryId(int id) {
+		return postRepo.queryForCategoryId(id);
+
+	}
+
+	@Override
+	public List<Post> findPostsByPriceRange(double lowest, double highest) {
+		return postRepo.queryForPostByPriceRange(lowest, highest);
+
+	}
+
+	@Override
+	public List<Post> searchPostsByName(String name) {
+		return postRepo.findByNameContaining(name);
+
+	}
+
+	@Override
+	public List<Post> searchPostsByTitle(String title) {
+		return postRepo.findByTitleContaining(title);
+
+	}
+
+	@Override
+	public List<Post> findAllPosts() {
+		return postRepo.findAll();
+
+	}
+
+	@Override
+	public Post findPostById(int id) {
+		Post p = postRepo.queryForPostWithCommentsByPostId(id);
+		if (p != null) {
+			return p;
+		}
+
+		return null;
+	}
+
+	@Override
+	public Post create(Post post) {
+		Post p = new Post();
+
+		if (post != null) {
+			if (post.getBrand() != null && !post.getBrand().equals("")) {
+				p.setBrand(post.getBrand());
+			}
+			if (post.getCategory() != null && !post.getCategory().getName().equals("")) {
+				p.setCategory(post.getCategory());
+			}
+			if (post.getDescription() != null && !post.getDescription().equals("")) {
+				p.setDescription(post.getDescription());
+			}
+			if (post.getEmail() != null && !post.getEmail().equals("")) {
+				p.setEmail(post.getEmail());
+			}
+			if (post.getTitle() != null && !post.getTitle().equals("")) {
+				p.setTitle(post.getTitle());
+			}
+			if (post.getName() != null && !post.getName().equals("")) {
+				p.setName(post.getName());
+			}
+			if (post.getPrice() != 0.0) {
+				p.setPrice(post.getPrice());
+			}
+			if (!post.getComments().isEmpty()) {
+				p.setComments(post.getComments());
+			}
+			if (post.getImageURL() != null && !post.getImageURL().equals("")) {
+				p.setImageURL(post.getImageURL());
+			}
+		}
+		return postRepo.saveAndFlush(p);
+	}
+
+	@Override
+	public Post update(int id, Post post) {
+		Optional<Post> opPost = postRepo.findById(id);
+
+		if (opPost.isPresent()) {
+			Post upPost = opPost.get();
+			if (post.getBrand() != null && !post.getBrand().equals("")) {
+				upPost.setBrand(post.getBrand());
+			}
+			if (post.getCategory() != null && !post.getCategory().getName().equals("")) {
+				upPost.setCategory(post.getCategory());
+			}
+			if (post.getDescription() != null && !post.getDescription().equals("")) {
+				upPost.setDescription(post.getDescription());
+			}
+			if (post.getEmail() != null && !post.getEmail().equals("")) {
+				upPost.setEmail(post.getEmail());
+			}
+			if (post.getTitle() != null && !post.getTitle().equals("")) {
+				upPost.setTitle(post.getTitle());
+			}
+			if (post.getName() != null && !post.getName().equals("")) {
+				upPost.setName(post.getName());
+			}
+			if (post.getPrice() != 0.0) {
+				upPost.setPrice(post.getPrice());
+			}
+			if (!post.getComments().isEmpty()) {
+				upPost.setComments(post.getComments());
+			}
+			if (post.getImageURL() != null && !post.getImageURL().equals("")) {
+				upPost.setImageURL(post.getImageURL());
+			}
+			return postRepo.saveAndFlush(upPost);
+		}
+
+		return null;
+
+	}
+
+	@Override
+	public Post replace(int id, Post post) {
+		Optional<Post> opPost = postRepo.findById(id);
+
+		if (opPost.isPresent()) {
+			Post upPost = opPost.get();
+			if (post.getBrand() != null && !post.getBrand().equals("")) {
+				upPost.setBrand(post.getBrand());
+			}
+			if (post.getCategory() != null && !post.getCategory().getName().equals("")) {
+				upPost.setCategory(post.getCategory());
+			}
+			if (post.getDescription() != null && !post.getDescription().equals("")) {
+				upPost.setDescription(post.getDescription());
+			}
+			if (post.getEmail() != null && !post.getEmail().equals("")) {
+				upPost.setEmail(post.getEmail());
+			}
+			if (post.getTitle() != null && !post.getTitle().equals("")) {
+				upPost.setTitle(post.getTitle());
+			}
+			if (post.getName() != null && !post.getName().equals("")) {
+				upPost.setName(post.getName());
+			}
+			if (post.getPrice() != 0.0) {
+				upPost.setPrice(post.getPrice());
+			}
+			if (!post.getComments().isEmpty()) {
+				upPost.setComments(post.getComments());
+			}
+			if (post.getImageURL() != null && !post.getImageURL().equals("")) {
+				upPost.setImageURL(post.getImageURL());
+			}
+			return postRepo.saveAndFlush(upPost);
+		}
+
+		return null;
+
+	}
+
+	@Override
+	public boolean delete(int id) {
+		try {
+			postRepo.deleteById(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return postRepo.existsById(id);
+
+	}
+
+}

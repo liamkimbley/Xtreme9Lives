@@ -1,0 +1,30 @@
+package com.skilldistillery.xtreme.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.skilldistillery.xtreme.Category;
+import com.skilldistillery.xtreme.services.CategoryService;
+
+@RestController
+@RequestMapping("api")
+public class CategoryController {
+	
+	@Autowired
+	private CategoryService catServ;
+	
+	@RequestMapping(path="ping", method=RequestMethod.GET)
+	public String ping() {
+		return "pong";
+	}
+
+	@RequestMapping(path="categories", method=RequestMethod.GET)
+	public List<Category> index() {
+		return catServ.index();
+	}
+
+}

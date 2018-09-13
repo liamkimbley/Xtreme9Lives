@@ -1,0 +1,50 @@
+package com.skilldistillery.xtreme.controllers;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.skilldistillery.xtreme.Post;
+import com.skilldistillery.xtreme.data.PostDAO;
+
+@RestController
+@RequestMapping("api")
+public class PostController {
+	
+	@Autowired
+	private PostDAO dao;
+	
+	@RequestMapping(path="ping", method=RequestMethod.GET)
+	public String ping() {
+		return "pong";
+	}
+	
+	@RequestMapping(path="posts", method=RequestMethod.GET)
+	public List<Post> index(){
+		return dao.getAllPosts();
+	}
+
+	@RequestMapping(path="posts/{pid}", method=RequestMethod.GET)
+	public Post getSinglePost(@PathVariable int pid) {
+		return dao.getPostById(pid);
+	}
+	
+	@RequestMapping(path="posts", method=RequestMethod.POST)
+	public Post create(@RequestBody Post post, HttpServletResponse res) {
+		Post p = dao.createPost(post);
+		if (p != null) {
+			res.setStatus(201);
+		}
+		else {
+			res.setStatus(500);
+		}
+		return p;
+	}
+}
